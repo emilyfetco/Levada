@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Management</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .calendar {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .event-form {
+            margin-bottom: 20px;
+        }
+
+        input[type="date"], input[type="text"], button {
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #d4c2e6;
+            border-radius: 6px;
+            font-size: 1rem;
+            width: 100%;
+        }
+
+        button {
+            background-color: #b089d4;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #9d72c3;
+        }
+
+        .event-list {
+            margin-top: 20px;
+        }
+
+        .event-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px 0;
+            padding: 10px;
+            background: #f7e9ff;
+            border-radius: 6px;
+        }
+
+        .event-item button {
+            width: 20px;
+            height: 20px;
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .event-item button:hover {
+            background-color: #e55656;
+        }
+    </style>
+</head>
+<body id="time-management-page">
+    <header>
+        Time Management
+    </header>
+    <section>
+        <h1>Why Time Management Matters</h1>
+        <p>Time management is a critical skill for self-improvement. By effectively planning your day, you can achieve your goals more efficiently and reduce stress.</p>
+        <ul>
+            <li><strong>Prioritize your tasks:</strong> Focus on the most important tasks first.</li>
+            <li><strong>Avoid multitasking:</strong> Concentrate on one thing at a time for better results.</li>
+            <li><strong>Set realistic deadlines:</strong> Break big tasks into smaller, manageable ones.</li>
+            <li><strong>Use a calendar:</strong> Schedule your day to stay on track.</li>
+        </ul>
+        <p>Start managing your time better today and watch how it improves every area of your life!</p>
+    </section>
+
+    <section class="calendar">
+        <h2>Your Personal Calendar</h2>
+        <form class="event-form" id="eventForm">
+            <input type="date" id="eventDate" required>
+            <input type="text" id="eventDescription" placeholder="Event Description" required>
+            <button type="submit">Add Event</button>
+        </form>
+        <div class="event-list" id="eventList">
+            <h3>Saved Events:</h3>
+        </div>
+    </section>
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', loadEvents);
+
+        const eventForm = document.getElementById('eventForm');
+        const eventList = document.getElementById('eventList');
+
+        eventForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const date = document.getElementById('eventDate').value;
+            const description = document.getElementById('eventDescription').value;
+
+            if (!date || !description) {
+                alert('Please fill in both fields.');
+                return;
+            }
+
+
+            const events = JSON.parse(localStorage.getItem('events')) || [];
+            const newEvent = { date, description };
+            events.push(newEvent);
+            localStorage.setItem('events', JSON.stringify(events));
+
+
+            addEventToUI(newEvent);
+
+
+            eventForm.reset();
+        });
+
+        function addEventToUI(event) {
+            const eventItem = document.createElement('div');
+            eventItem.classList.add('event-item');
+            eventItem.innerHTML = `
+                <span><strong>${event.date}</strong>: ${event.description}</span>
+                <button onclick="removeEvent(this, '${event.date}', '${event.description}')">&times;</button>
+            `;
+            eventList.appendChild(eventItem);
+        }
+
+        function loadEvents() {
+            const events = JSON.parse(localStorage.getItem('events')) || [];
+            events.forEach(addEventToUI);
+        }
+
+        function removeEvent(button, date, description) {
+
+            let events = JSON.parse(localStorage.getItem('events')) || [];
+            events = events.filter(event => event.date !== date || event.description !== description);
+            localStorage.setItem('events', JSON.stringify(events));
+
+
+            button.parentElement.remove();
+        }
+    </script>
+</body>
+</html>
+
+<!-- This code was written all night long, by a true jedi hacker Emily Fetco, cyberemily1, may the force be with you!  -->

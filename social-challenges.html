@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Challenges</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .challenge {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .challenge-description {
+            flex: 1;
+            margin-left: 10px;
+        }
+
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+       Fun Challenges
+    </header>
+    <section>
+        <h1>Fun Challenges to Try</h1>
+        <div class="challenge" id="kindness-challenge">
+            <input type="checkbox" id="kindness-checkbox">
+            <div class="challenge-description">
+                <h3>30-Day Kindness Challenge</h3>
+                <p>Perform one kind act each day for 30 days and spread positivity!</p>
+            </div>
+        </div>
+        <div class="challenge" id="gratitude-challenge">
+            <input type="checkbox" id="gratitude-checkbox">
+            <div class="challenge-description">
+                <h3>7-Day Gratitude Challenge</h3>
+                <p>Write down three things you're grateful for each day for a week.</p>
+            </div>
+        </div>
+        <div class="challenge" id="digital-detox-challenge">
+            <input type="checkbox" id="digital-detox-checkbox">
+            <div class="challenge-description">
+                <h3>Digital Detox Challenge</h3>
+                <p>Spend one hour daily without any screens for a week.</p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+
+        function saveCheckboxState(id) {
+            const checkbox = document.getElementById(id);
+            localStorage.setItem(id, checkbox.checked);
+        }
+
+
+        function loadCheckboxState(id) {
+            const checkbox = document.getElementById(id);
+            const isChecked = localStorage.getItem(id) === 'true';
+            checkbox.checked = isChecked;
+        }
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadCheckboxState('kindness-checkbox');
+            loadCheckboxState('gratitude-checkbox');
+            loadCheckboxState('digital-detox-checkbox');
+        });
+
+
+        document.getElementById('kindness-checkbox').addEventListener('change', () => saveCheckboxState('kindness-checkbox'));
+        document.getElementById('gratitude-checkbox').addEventListener('change', () => saveCheckboxState('gratitude-checkbox'));
+        document.getElementById('digital-detox-checkbox').addEventListener('change', () => saveCheckboxState('digital-detox-checkbox'));
+    </script>
+</body>
+</html>
+
+<!-- This code was written all night long, by a true jedi hacker Emily Fetco, cyberemily1, may the force be with you!  -->

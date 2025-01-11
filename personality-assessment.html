@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personality Assessment</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7eeff;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        header {
+            text-align: center;
+            background-color: #B589CB;
+            color: white;
+            padding: 20px;
+            width: 100%;
+        }
+
+        main {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            font-size: 1.1rem;
+        }
+
+        select, button {
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            outline: none;
+        }
+
+        button {
+            background-color:#B589CB;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #B589CB;
+        }
+
+        #assessmentResult {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Personality Assessment</h1>
+    </header>
+
+    <main>
+        <form id="personalityForm">
+            <label for="personalityType">Choose the description that best matches you:</label>
+            <select id="personalityType" required>
+                <option value="analyst">I enjoy analyzing problems and thinking logically.</option>
+                <option value="diplomat">I value harmony and connecting with others.</option>
+                <option value="sentinel">I am organized, reliable, and detail-oriented.</option>
+                <option value="explorer">I love trying new things and being spontaneous.</option>
+            </select>
+
+            <button type="button" id="submitPersonality">Submit</button>
+        </form>
+
+        <div id="assessmentResult"></div>
+    </main>
+
+
+    <script>
+        document.getElementById('submitPersonality').addEventListener('click', () => {
+            const personalityType = document.getElementById('personalityType').value;
+            let resultMessage = '';
+
+            switch (personalityType) {
+                case 'analyst':
+                    resultMessage = `Your personality type is <strong>Analyst</strong>. You excel in logical thinking and strategic planning. Strengths: problem-solving and innovation.`;
+                    break;
+                case 'diplomat':
+                    resultMessage = `Your personality type is <strong>Diplomat</strong>. You value harmony and cooperation. Strengths: empathy, communication, and fostering relationships.`;
+                    break;
+                case 'sentinel':
+                    resultMessage = `Your personality type is <strong>Sentinel</strong>. You are reliable and organized. Strengths: attention to detail, responsibility, and perseverance.`;
+                    break;
+                case 'explorer':
+                    resultMessage = `Your personality type is <strong>Explorer</strong>. You are adventurous and adaptable. Strengths: creativity, spontaneity, and resilience.`;
+                    break;
+                default:
+                    resultMessage = 'Please select a valid option.';
+            }
+
+            document.getElementById('assessmentResult').innerHTML = resultMessage;
+        });
+    </script>
+</body>
+</html>
+
+<!-- This code was written all night long, by a true jedi hacker Emily Fetco, cyberemily1, may the force be with you!  -->

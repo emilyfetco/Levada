@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Motivational Quotes</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #f7eeff;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            background-color: #b089d4;
+            color: white;
+            padding: 20px;
+            width: 100%;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .quote-container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 600px;
+            margin: 20px;
+        }
+
+        .quote {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .author {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .arrows {
+            display: flex;
+            justify-content: space-between;
+            width: 200px;
+            margin-top: 20px;
+        }
+
+        .arrow {
+            background-color: #b089d4;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .arrow:hover {
+            background-color: #9d72c3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        Daily Motivational Quotes
+    </header>
+    <div class="quote-container">
+        <p class="quote" id="quote"></p>
+        <p class="author" id="author"></p>
+    </div>
+    <div class="arrows">
+        <button class="arrow" id="prev">&#8592; Previous</button>
+        <button class="arrow" id="next">Next &#8594;</button>
+    </div>
+
+    <script>
+        const quotes = [
+            { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
+            { text: "Success is not final, failure is not fatal: It is the courage to continue that counts.", author: "Winston Churchill" },
+            { text: "Believe you can and you're halfway there.", author: "Theodore Roosevelt" },
+            { text: "It does not matter how slowly you go as long as you do not stop.", author: "Confucius" },
+            { text: "Your time is limited, so don’t waste it living someone else’s life.", author: "Steve Jobs" },
+            { text: "You miss 100% of the shots you don’t take.", author: "Wayne Gretzky" },
+            { text: "Hardships often prepare ordinary people for an extraordinary destiny.", author: "C.S. Lewis" },
+            { text: "The best way to predict the future is to invent it.", author: "Alan Kay" },
+            { text: "Don’t watch the clock; do what it does. Keep going.", author: "Sam Levenson" },
+            { text: "Everything you’ve ever wanted is on the other side of fear.", author: "George Addair" },
+            { text: "Act as if what you do makes a difference. It does.", author: "William James" },
+            { text: "Success usually comes to those who are too busy to be looking for it.", author: "Henry David Thoreau" },
+            { text: "Don’t be afraid to give up the good to go for the great.", author: "John D. Rockefeller" },
+            { text: "I find that the harder I work, the more luck I seem to have.", author: "Thomas Jefferson" },
+            { text: "Don’t let yesterday take up too much of today.", author: "Will Rogers" },
+            { text: "You learn more from failure than from success. Don’t let it stop you. Failure builds character.", author: "Unknown" },
+            { text: "It’s not whether you get knocked down, it’s whether you get up.", author: "Vince Lombardi" },
+            { text: "If you are working on something that you really care about, you don’t have to be pushed. The vision pulls you.", author: "Steve Jobs" },
+            { text: "People who are crazy enough to think they can change the world, are the ones who do.", author: "Rob Siltanen" },
+            { text: "Failure will never overtake me if my determination to succeed is strong enough.", author: "Og Mandino" },
+            { text: "We may encounter many defeats but we must not be defeated.", author: "Maya Angelou" },
+            { text: "Knowing is not enough; we must apply. Wishing is not enough; we must do.", author: "Johann Wolfgang von Goethe" },
+            { text: "Imagine your life is perfect in every respect; what would it look like?", author: "Brian Tracy" },
+            { text: "We generate fears while we sit. We overcome them by action.", author: "Dr. Henry Link" },
+            { text: "Whether you think you can or think you can’t, you’re right.", author: "Henry Ford" },
+            { text: "Security is mostly a superstition. Life is either a daring adventure or nothing.", author: "Helen Keller" },
+            { text: "The man who has confidence in himself gains the confidence of others.", author: "Hasidic Proverb" },
+            { text: "The only limit to our realization of tomorrow will be our doubts of today.", author: "Franklin D. Roosevelt" },
+            { text: "Creativity is intelligence having fun.", author: "Albert Einstein" },
+            { text: "What you get by achieving your goals is not as important as what you become by achieving your goals.", author: "Zig Ziglar" },
+            { text: "You are never too old to set another goal or to dream a new dream.", author: "C.S. Lewis" },
+            { text: "To see what is right and not do it is a lack of courage.", author: "Confucius" },
+            { text: "Reading is to the mind, as exercise is to the body.", author: "Brian Tracy" },
+            { text: "Fake it until you make it! Act as if you had all the confidence you require until it becomes your reality.", author: "Brian Tracy" },
+            { text: "The future belongs to the competent. Get good, get better, be the best!", author: "Brian Tracy" },
+            { text: "For every reason it’s not possible, there are hundreds of people who have faced the same circumstances and succeeded.", author: "Jack Canfield" },
+            { text: "Things work out best for those who make the best of how things work out.", author: "John Wooden" },
+            { text: "A room without books is like a body without a soul.", author: "Marcus Tullius Cicero" },
+            { text: "I think goals should never be easy, they should force you to work, even if they are uncomfortable at the time.", author: "Michael Phelps" },
+            { text: "One way to keep momentum going is to have constantly greater goals.", author: "Michael Korda" },
+            { text: "It’s not the load that breaks you down, it’s the way you carry it.", author: "Lou Holtz" },
+            { text: "You don’t have to be great to start, but you have to start to be great.", author: "Zig Ziglar" }
+
+        ];
+
+        let currentIndex = 0;
+
+        function updateQuote() {
+            const quoteElement = document.getElementById('quote');
+            const authorElement = document.getElementById('author');
+            quoteElement.textContent = `"${quotes[currentIndex].text}"`;
+            authorElement.textContent = `- ${quotes[currentIndex].author}`;
+        }
+
+        document.getElementById('next').addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % quotes.length;
+            updateQuote();
+        });
+
+        document.getElementById('prev').addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + quotes.length) % quotes.length;
+            updateQuote();
+        });
+
+
+        updateQuote();
+    </script>
+</body>
+</html>
+
+<!-- This code was written all night long, by a true jedi hacker Emily Fetco, cyberemily1, may the force be with you!  -->

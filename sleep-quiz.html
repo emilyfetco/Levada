@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sleep Quiz</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7eeff; 
+            color: #4b3c5d; 
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        header {
+            text-align: center;
+            background-color: #a084ca;
+            color: white;
+            padding: 20px;
+            width: 100%;
+        }
+
+        main {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            font-size: 1.1rem;
+            color: #4b3c5d;
+        }
+
+        input, select, button {
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #d4c2e6;
+            border-radius: 6px;
+            outline: none;
+        }
+
+        input:focus, select:focus {
+            border-color: #a084ca;
+            box-shadow: 0 0 5px rgba(160, 132, 202, 0.8);
+        }
+
+        button {
+            background-color: #a084ca;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #8675a9;
+        }
+
+        #quizResult {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #4b3c5d;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Sleep Quiz</h1>
+    </header>
+
+    <main>
+        <form id="sleepQuizForm">
+            <label for="sleepTime">What time did you go to sleep?</label>
+            <input type="time" id="sleepTime" required>
+
+            <label for="wakeTime">What time did you wake up?</label>
+            <input type="time" id="wakeTime" required>
+
+            <label for="sleepLatency">How long did it take you to fall asleep?</label>
+            <select id="sleepLatency" required>
+                <option value="short">Short (5 minutes)</option>
+                <option value="medium">Medium (15 minutes)</option>
+                <option value="long">Long (30 minutes)</option>
+            </select>
+
+            <button type="button" id="submitQuiz">Submit</button>
+        </form>
+
+        <div id="quizResult"></div>
+    </main>
+
+    <script>
+        document.getElementById('submitQuiz').addEventListener('click', () => {
+            const sleepTime = document.getElementById('sleepTime').value;
+            const wakeTime = document.getElementById('wakeTime').value;
+            const sleepLatency = document.getElementById('sleepLatency').value;
+
+            if (!sleepTime || !wakeTime || !sleepLatency) {
+                alert('Please fill out all fields.');
+                return;
+            }
+
+
+            const sleepHour = parseInt(sleepTime.split(':')[0]);
+            const sleepMinute = parseInt(sleepTime.split(':')[1]);
+            const wakeHour = parseInt(wakeTime.split(':')[0]);
+            const wakeMinute = parseInt(wakeTime.split(':')[1]);
+
+
+            let totalSleepMinutes = (wakeHour * 60 + wakeMinute) - (sleepHour * 60 + sleepMinute);
+            if (totalSleepMinutes < 0) totalSleepMinutes += 24 * 60; 
+
+
+            let latencyMinutes = 0;
+            if (sleepLatency === 'short') latencyMinutes = 5; 
+            else if (sleepLatency === 'medium') latencyMinutes = 15; 
+            else if (sleepLatency === 'long') latencyMinutes = 30; 
+
+            const effectiveSleepMinutes = totalSleepMinutes - latencyMinutes;
+
+  
+            const effectiveSleepHours = Math.floor(effectiveSleepMinutes / 60);
+            const remainingMinutes = effectiveSleepMinutes % 60;
+
+  
+            let feedback = `You slept effectively for ${effectiveSleepHours} hours and ${remainingMinutes} minutes.`;
+            if (effectiveSleepHours >= 7 && effectiveSleepHours <= 9) {
+                feedback += ' You have a healthy sleep schedule! Keep it up.';
+            } else if (effectiveSleepHours < 7) {
+                feedback += ' You might not be getting enough sleep. Consider going to bed earlier or improving your sleep environment.';
+            } else {
+                feedback += ' While youre getting enough sleep, oversleeping can sometimes lead to feeling groggy. Try to aim for 7-9 hours.';
+            }
+
+            document.getElementById('quizResult').innerText = feedback;
+        });
+    </script>
+</body>
+</html>
+
+<!-- This code was written all night long, by a true jedi hacker Emily Fetco, cyberemily1, may the force be with you!  -->
